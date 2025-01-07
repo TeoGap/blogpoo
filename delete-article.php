@@ -45,5 +45,6 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection vers la page d'accueil
  */
-header("Location: index.php");
+// header("Location: index.php");
+redirect('index.php');
 exit();

@@ -71,5 +71,6 @@ $query = $pdo->prepare('INSERT INTO comments SET author = :author, content = :co
 $query->execute(compact('author', 'content', 'article_id'));
 
 // 4. Redirection vers l'article en question :
-header('Location: article.php?id=' . $article_id);
+redirect('article.php?id=' . $article_id);
+
 exit();
