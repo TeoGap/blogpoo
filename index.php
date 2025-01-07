@@ -14,6 +14,7 @@
  * - Le mode d'exploitation : FETCH_ASSOC veut dire qu'on exploitera les données sous la forme de tableaux associatifs
  */
 require ('libraries/database.php');
+require('libraries/utils.php');
 $pdo =getPdo();
 
 /**
@@ -28,7 +29,12 @@ $articles = $resultats->fetchAll();
  * 3. Affichage
  */
 $pageTitle = "Accueil";
-ob_start();
+$variables = [
+    'articles' => $articles,
+    'Accueil' => $pageTitle
+];
+
+render('articles/index', $variables);
 require('templates/articles/index.html.php');
 $pageContent = ob_get_clean();
 

@@ -63,7 +63,15 @@ $commentaires = $query->fetchAll();
 /**
  * 5. On affiche 
  */
-$pageTitle = $article['title'];
+//$pageTitle = $article['title'];
+require('libraries/utils.php');
+$pageTitle = $article['title']; 
+render('articles/show', [ 
+    'pageTitle'=> $pageTitle, 
+    'article'=> $article, 
+    'commentaires'=>$commentaires, 
+    'article_id'=>$article_id
+ ]);
 ob_start();
 require('templates/articles/show.html.php');
 $pageContent = ob_get_clean();
