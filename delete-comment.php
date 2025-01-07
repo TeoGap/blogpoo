@@ -51,5 +51,6 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection vers l'article en question
  */
-header("Location: article.php?id=" . $article_id);
+// header("Location: article.php?id=" . $article_id);
+redirect('article.php?id=' . $article_id);
 exit();
