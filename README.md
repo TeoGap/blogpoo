@@ -1,3 +1,4 @@
+
 git clone https://github.com/TeoGap/blogpoo.git
-git pull origin main
+Mettre le fichier blogpoo.sql dans wamp pour que le programme marche
 
