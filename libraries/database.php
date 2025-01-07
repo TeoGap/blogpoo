@@ -19,7 +19,7 @@ function findAllArticles()
      $resultats = $pdo->query('SELECT * FROM articles ORDER BY created_at DESC'); 
      $articles = $resultats->fetchAll(); 
      return $articles; 
-     }
+}
 
 function findArticle(int $id)
  { 

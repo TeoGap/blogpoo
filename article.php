@@ -35,7 +35,12 @@ if (!$article_id) {
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-require ('libraries/database.php');
+require_once('libraries/database.php');
+require_once('libraries/utils.php');
+require_once('libraries/models/Article.php');
+require_once('libraries/models/Comment.php');
+$articleModel = new Article();
+$commentModel = new Comment();
 $pdo =getPdo();
 
 /**
@@ -43,7 +48,7 @@ $pdo =getPdo();
  * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur : Ne faites
  * jamais confiance à l'utilisateur ! :D
  */
-$article = findArticle($article_id);
+$article = $articleModel->find($article_id);
 
 
 /**
@@ -51,13 +56,13 @@ $article = findArticle($article_id);
  * Pareil, toujours une requête préparée pour sécuriser la donnée fournie par l'utilisateur 
  */
 
-$commentaires = findAllComments();
+ $commentaires= $commentModel->findAllWithArticle($article_id);
 
 /**
  * 5. On affiche 
  */
 //$pageTitle = $article['title'];
-require('libraries/utils.php');
+
 $pageTitle = $article['title']; 
 render('articles/show', [ 
     'pageTitle'=> $pageTitle, 
