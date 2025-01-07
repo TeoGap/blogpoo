@@ -26,11 +26,13 @@ $id = $_GET['id'];
  */
 require ('libraries/database.php');
 require ('libraries/utils.php');
+require_once('libraries/models/Article.php');
+$model =new Article();
 
 /**
  * 3. Utilisation de la fonction findArticle pour vérifier si l'article existe
  */
-$article = findArticle($id);
+$article=$model->find($id);
 if (!$article) {
     die("L'article $id n'existe pas, donc vous ne pouvez pas le supprimer !");
 }
@@ -39,7 +41,7 @@ if (!$article) {
  * 4. Réelle suppression de l'article
  */
 $pdo = getPdo();
-deleteArticle($id);
+$model->delete($id);
 
 /**
  * 5. Redirection vers la page d'accueil
