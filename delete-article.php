@@ -25,26 +25,24 @@ $id = $_GET['id'];
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
 require ('libraries/database.php');
-$pdo =getPdo();
+require ('libraries/utils.php');
 
 /**
- * 3. Vérification que l'article existe bel et bien
+ * 3. Utilisation de la fonction findArticle pour vérifier si l'article existe
  */
-$query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');
-$query->execute(['id' => $id]);
-if ($query->rowCount() === 0) {
+$article = findArticle($id);
+if (!$article) {
     die("L'article $id n'existe pas, donc vous ne pouvez pas le supprimer !");
 }
 
 /**
  * 4. Réelle suppression de l'article
  */
-$query = $pdo->prepare('DELETE FROM articles WHERE id = :id');
-$query->execute(['id' => $id]);
+$pdo = getPdo();
+deleteArticle($id);
 
 /**
  * 5. Redirection vers la page d'accueil
  */
-// header("Location: index.php");
 redirect('index.php');
 exit();

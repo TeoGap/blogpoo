@@ -56,19 +56,15 @@ if (!$author || !$article_id || !$content) {
  * PS : Ca fait plusieurs fois qu'on écrit ces lignes pour se connecter ?! 
  */
 require ('libraries/database.php');
+require ('libraries/utils.php');
 $pdo =getPdo();
-
-$query = $pdo->prepare('SELECT * FROM articles WHERE id = :article_id');
-$query->execute(['article_id' => $article_id]);
-
-// Si rien n'est revenu, on fait une erreur
-if ($query->rowCount() === 0) {
+$article = findArticle($article_id);
+if (!$article) {
     die("Attention ! L'article $article_id n'existe !");
 }
-
 // 3. Insertion du commentaire
-$query = $pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
-$query->execute(compact('author', 'content', 'article_id'));
+insertComment($author, $content, $article_id);
+
 
 // 4. Redirection vers l'article en question :
 redirect('article.php?id=' . $article_id);
