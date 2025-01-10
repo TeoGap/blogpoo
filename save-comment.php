@@ -49,7 +49,8 @@ if (!$author || !$article_id || !$content) {
  * Ca nécessite une connexion à la base de données puis une requête qui va aller chercher l'article en question
  * Si rien ne revient, on affiche une erreur !
  */
-require_once ('libraries/database.php');
+// require_once ('libraries/database.php');
+require_once('libraries/models/Model.php');
 require_once ('libraries/utils.php');
 require_once ('libraries/models/Article.php');  // Vous avez besoin de ce modèle pour vérifier l'existence de l'article
 require_once ('libraries/models/Comment.php');

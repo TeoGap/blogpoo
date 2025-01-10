@@ -35,7 +35,8 @@ if (!$article_id) {
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-require_once('libraries/database.php');
+// require_once('libraries/database.php');
+require_once('libraries/models/Model.php');
 require_once('libraries/utils.php');
 require_once('libraries/models/Article.php');
 require_once('libraries/models/Comment.php');

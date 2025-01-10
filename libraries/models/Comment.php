@@ -1,12 +1,9 @@
 <?php 
-require_once('libraries/database.php');
-class Comment
+// require_once('libraries/database.php');
+require_once('libraries/models/Model.php');
+class Comment extends Model
 { 
-    private $pdo;
-    public function __construct()
-    {
-    $this->pdo = getPdo();
-    }
+    
     public function findAllWithArticle() :array
     { 
         

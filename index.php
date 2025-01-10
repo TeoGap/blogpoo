@@ -13,7 +13,8 @@
  * - Le mode d'erreur : le mode exception permet à PDO de nous prévenir violament quand on fait une erreur ;-)
  * - Le mode d'exploitation : FETCH_ASSOC veut dire qu'on exploitera les données sous la forme de tableaux associatifs
  */
-require_once ('libraries/database.php');
+// require_once ('libraries/database.php');
+require_once('libraries/models/Model.php');
 require_once('libraries/utils.php');
 require_once('libraries/models/Article.php');
 $model=new Article();
