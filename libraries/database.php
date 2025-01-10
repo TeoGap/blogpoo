@@ -30,7 +30,7 @@ function findArticle(int $id)
      return $article; 
 }
 
-function findAllComments() 
+function findAllComments(int $id) 
 { 
     $pdo =getPdo();
      $resultats = $pdo->query('SELECT * FROM comments ORDER BY created_at DESC'); 
