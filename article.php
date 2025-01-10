@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CE FICHIER DOIT AFFICHER UN ARTICLE ET SES COMMENTAIRES !
+ * CE FICHIER DOIT AFFICHER UN ARTICLE ET SES COMMENTAIRES ! 
  * 
  * On doit d'abord récupérer le paramètre "id" qui sera présent en GET et vérifier son existence
  * Si on n'a pas de param "id", alors on affiche un message d'erreur !
@@ -41,7 +41,7 @@ require_once('libraries/models/Article.php');
 require_once('libraries/models/Comment.php');
 $articleModel = new Article();
 $commentModel = new Comment();
-$pdo =getPdo();
+$pdo = getPdo();
 
 /**
  * 3. Récupération de l'article en question
@@ -50,26 +50,36 @@ $pdo =getPdo();
  */
 $article = $articleModel->find($article_id);
 
+// Vérification si l'article existe
+if ($article === false) {
+    die("L'article demandé n'a pas été trouvé.");
+}
 
 /**
  * 4. Récupération des commentaires de l'article en question
  * Pareil, toujours une requête préparée pour sécuriser la donnée fournie par l'utilisateur 
  */
+$commentaires = $commentModel->findAllWithArticle($article_id);
 
- $commentaires= $commentModel->findAllWithArticle($article_id);
+// Vérification si les commentaires existent
+if ($commentaires === false) {
+    $commentaires = [];  // Aucun commentaire, on passe à la suite
+}
 
 /**
- * 5. On affiche 
+ * 5. On affiche
  */
-//$pageTitle = $article['title'];
 
-$pageTitle = $article['title']; 
+
+$pageTitle = $article['title'];
+
 render('articles/show', [ 
-    'pageTitle'=> $pageTitle, 
-    'article'=> $article, 
-    'commentaires'=>$commentaires, 
-    'article_id'=>$article_id
- ]);
+    'pageTitle' => $pageTitle, 
+    'article' => $article, 
+    'commentaires' => $commentaires, 
+    'article_id' => $article_id
+]);
+
 ob_start();
 require('templates/articles/show.html.php');
 $pageContent = ob_get_clean();
