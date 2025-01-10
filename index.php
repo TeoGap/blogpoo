@@ -15,6 +15,9 @@
  */
 // require_once ('libraries/database.php');
 require_once('libraries/models/Model.php');
+
+
+require_once('libraries/models/Model.php');
 require_once('libraries/utils.php');
 require_once('libraries/models/Article.php');
 $model=new Article();
