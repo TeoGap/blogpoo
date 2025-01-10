@@ -1,17 +1,17 @@
 <?php
 
 /**
- * CE FICHIER DOIT ENREGISTRER UN NOUVEAU COMMENTAIRE EST REDIRIGER SUR L'ARTICLE !
+ * CE FICHIER DOIT ENREGISTRER UN NOUVEAU COMMENTAIRE ET REDIRIGER VERS L'ARTICLE !
  * 
  * On doit d'abord vérifier que toutes les informations ont été entrées dans le formulaire
  * Si ce n'est pas le cas : un message d'erreur
  * Sinon, on va sauver les informations
  * 
- * Pour sauvegarder les informations, ce serait bien qu'on soit sur que l'article qu'on essaye de commenter existe
+ * Pour sauvegarder les informations, ce serait bien qu'on soit sûr que l'article qu'on essaye de commenter existe
  * Il faudra donc faire une première requête pour s'assurer que l'article existe
  * Ensuite on pourra intégrer le commentaire
  * 
- * Et enfin on pourra rediriger l'utilisateur vers l'article en question
+ * Et enfin, on pourra rediriger l'utilisateur vers l'article en question
  */
 
 /**
@@ -25,10 +25,10 @@ if (!empty($_POST['author'])) {
     $author = $_POST['author'];
 }
 
-// Ensuite le contenu
+// Ensuite, le contenu
 $content = null;
 if (!empty($_POST['content'])) {
-    // On fait quand même attention à ce que l'utilisateur n'essaye pas des balises html dans son commentaire
+    // On fait quand même attention à ce que l'utilisateur n'essaye pas des balises HTML dans son commentaire
     $content = htmlspecialchars($_POST['content']);
 }
 
@@ -47,26 +47,32 @@ if (!$author || !$article_id || !$content) {
 /**
  * 2. Vérification que l'id de l'article pointe bien vers un article qui existe
  * Ca nécessite une connexion à la base de données puis une requête qui va aller chercher l'article en question
- * Si rien ne revient, on affiche une erreur!
- * 
- * Attention, on précise ici deux options :
- * - Le mode d'erreur : le mode exception permet à PDO de nous prévenir violemment quand on fait une erreur ;-)
- * - Le mode d'exploitation : FETCH_ASSOC veut dire qu'on exploitera les données sous la forme de tableaux associatifs
- * 
- * PS : Ca fait plusieurs fois qu'on écrit ces lignes pour se connecter ?! 
+ * Si rien ne revient, on affiche une erreur !
  */
-require ('libraries/database.php');
-require ('libraries/utils.php');
-$pdo =getPdo();
-$article = findArticle($article_id);
+require_once ('libraries/database.php');
+require_once ('libraries/utils.php');
+require_once ('libraries/models/Article.php');  // Vous avez besoin de ce modèle pour vérifier l'existence de l'article
+require_once ('libraries/models/Comment.php');
+
+// On crée un modèle Article pour vérifier l'existence de l'article
+$articleModel = new Article();
+$commentModel = new Comment();
+$pdo = getPdo();
+
+// Vérification de l'existence de l'article
+$article = $articleModel->find($article_id);
 if (!$article) {
-    die("Attention ! L'article $article_id n'existe !");
+    die("L'article avec l'ID $article_id n'existe pas !");
 }
-// 3. Insertion du commentaire
-insertComment($author, $content, $article_id);
 
+/**
+ * 3. Insertion du commentaire
+ */
+$commentModel->insert($author, $content, $article_id);
 
-// 4. Redirection vers l'article en question :
+/**
+ * 4. Redirection vers l'article en question
+ */
 redirect('article.php?id=' . $article_id);
-
 exit();
+

@@ -25,17 +25,18 @@ $id = $_GET['id'];
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-require ('libraries/database.php');
-require ('libraries/utils.php');
+require_once ('libraries/database.php');
+require_once ('libraries/utils.php');
+require_once('libraries/models/Comment.php');
+$model =new Comment();
 $pdo =getPdo();
 
 /**
  * 3. Vérification de l'existence du commentaire
  */
-$commentaire=findComment($id);
-if (!$commentaire) 
-{
-     die("Aucun commentaire n'a l'identifiant $id !");
+$comment=$model->find($id);
+if (!$comment) {
+    die("Le commentaire $id n'existe pas, donc vous ne pouvez pas le supprimer !");
 }
 
 /**
@@ -44,9 +45,9 @@ if (!$commentaire)
  */
 
 
-$article_id = $commentaire['article_id'];
+$article_id = $comment['article_id'];
 
-deleteComment($id);
+$model->delete($id);
 
 /**
  * 5. Redirection vers l'article en question
